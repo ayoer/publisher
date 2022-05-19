@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using RabbitMQ.Client;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
+using publisher.Models;
+using publisher.Models.Report;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,44 +17,26 @@ namespace publisher.Controllers
     {
 
         private readonly IConnection _connection;
-        public ReportController()
+        private readonly ApplicationDbContext _context;
+        public ReportController(ApplicationDbContext context)
         {
             var factory = new ConnectionFactory() { HostName = "localhost" };
             _connection = factory.CreateConnection();
+            _context = context;
 
         }
         // GET: api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ActionResult<List<ReportModel>> GetAll()
         {
-            using (IModel channel = _connection.CreateModel())
+            var info = _context.ReportModels.ToList();
+
+            if (info != null)
             {
-                channel.QueueDeclare(queue: "getAddresses", durable: false, exclusive: false, autoDelete: false, arguments: null);
-
-                IBasicProperties properties = channel.CreateBasicProperties();
-                properties.Persistent = true;
-
-
-                channel.ConfirmSelect();
-
-                var body = Encoding.UTF8.GetBytes("getAddresses");
-
-                channel.BasicPublish(exchange: "",
-                                     routingKey: "getAddresses",
-                                     basicProperties: properties,
-                                     body: body);
-
-                channel.WaitForConfirmsOrDie();
-
-                channel.BasicAcks += (sender, eventArgs) =>
-                {
-                    Console.WriteLine("Sent RabbitMQ");
-                    //implement ack handle
-                };
-                channel.ConfirmSelect();
-
+                return info;
             }
-            return new string[] { "value1", "value2" };
+
+            return NotFound();
         }
 
         // GET api/values/5
@@ -60,9 +44,18 @@ namespace publisher.Controllers
         public string Get(int id)
         {
 
+            
+            return "value";
+        }
+
+        // POST api/values
+        [HttpPost]
+        public void Post([FromBody]string value)
+        {
+
             using (IModel channel = _connection.CreateModel())
             {
-                channel.QueueDeclare(queue: "getAddresses", durable: false, exclusive: false, autoDelete: false, arguments: null);
+                channel.QueueDeclare(queue: "report", durable: false, exclusive: false, autoDelete: false, arguments: null);
 
                 IBasicProperties properties = channel.CreateBasicProperties();
                 properties.Persistent = true;
@@ -70,10 +63,10 @@ namespace publisher.Controllers
 
                 channel.ConfirmSelect();
 
-                var body = Encoding.UTF8.GetBytes("getAddresses");
+                var body = Encoding.UTF8.GetBytes("report");
 
                 channel.BasicPublish(exchange: "",
-                                     routingKey: "getAddresses",
+                                     routingKey: "report",
                                      basicProperties: properties,
                                      body: body);
 
@@ -87,13 +80,6 @@ namespace publisher.Controllers
                 channel.ConfirmSelect();
 
             }
-            return "value";
-        }
-
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
         }
 
         // PUT api/values/5

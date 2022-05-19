@@ -15,19 +15,19 @@ namespace publisher.Models
 
 
 			public DbSet<AddressBookModel> AddressBookModels { get; set; }
-			public DbSet<ContactInformationModel> ContactInformationModels { get; set; }
-			public DbSet<ReportModel> ReportModels { get; set; }
+            public DbSet<ContactInformationModel> ContactInformationModels { get; set; }
+            public DbSet<ReportModel> ReportModels { get; set; }
 
-			protected override void OnModelCreating(ModelBuilder modelBuilder)
-			{
-				modelBuilder
-					.Entity<ReportModel>()
-					.Property(e => e.Date)
-					.HasDefaultValueSql("now()");
-			}
+            protected override void OnModelCreating(ModelBuilder modelBuilder)
+            {
+                modelBuilder
+                    .Entity<ReportModel>()
+                    .Property(e => e.Date)
+                    .HasDefaultValueSql("now()");
+            }
 
 
-	}
+    }
 	
 }
 

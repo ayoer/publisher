@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using publisher.Models;
@@ -27,15 +28,22 @@ namespace publisher.Controllers
         public ActionResult<List<AddressBookModel>> GetAll()
         {
 
-            return _context.AddressBookModels.ToList();
+            var addresses = _context.AddressBookModels.ToList();
+
+            if (addresses != null)
+            {
+                return addresses;
+            }
+
+            return NotFound();
 
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<AddressBookModel> Get(int id)
+        public async Task<ActionResult<AddressBookModel>> Get(Guid id)
         {
-            var item = _context.AddressBookModels.Find(id);
+            var item = await _context.AddressBookModels.FindAsync(id);
             if (item == null)
             {
                 return NotFound();
@@ -45,31 +53,52 @@ namespace publisher.Controllers
             }
         }
 
+        // GET api/values/5
+        [HttpGet("details/{id}")]
+        public ActionResult<AddressBookModel> Detail(Guid id)
+        {
+            var item =  _context.AddressBookModels.Where(c => c.Id == id).Include(c => c.ContactInformation).ToList();
+            if (item == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return item[0];
+            }
+        }
+
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] AddressBookModel value)
+        public async Task<ActionResult<AddressBookModel>> Post([FromBody] AddressBookModel value)
         {
 
-             _context.AddressBookModels.Add(value);
+            var address = _context.AddressBookModels.Add(value);
+
+            await _context.SaveChangesAsync();
+            
+            return await Get(address.Entity.Id);
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] AddressBookModel value)
+        public async Task<ActionResult<AddressBookModel>> Put(Guid id, [FromBody] AddressBookModel value)
         {
             _context.AddressBookModels.Update(value);
 
+            await _context.SaveChangesAsync();
+
+            return await Get(value.Id);
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
-            var item = _context.AddressBookModels.Find(id);
-            if (item != null)
-            {
-                _context.AddressBookModels.Remove(item);
-            }
+           
+            _context.AddressBookModels.Remove(_context.AddressBookModels.Find(id));
+            _context.SaveChangesAsync();
+            
         }
     }
 }

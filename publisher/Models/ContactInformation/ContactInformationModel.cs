@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+using publisher.Models.AddressBook;
 namespace publisher.Models.ContactInformation
 {
 	public class ContactInformationModel
@@ -22,9 +24,11 @@ namespace publisher.Models.ContactInformation
         [Required]
         [MaxLength(100,ErrorMessage = "Content max length 100")]
         public string Content { get; set; }
+        [JsonIgnore]
+        public AddressBookModel AddressBook { get; set; }
 
-        [Required]
-        public Guid ContactId { get; set; }
+        public Guid AddressBookId { get; set; }
+
     }
 }
 

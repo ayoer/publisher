@@ -1,4 +1,46 @@
 ﻿<Properties StartupConfiguration="{02A8F6E4-3E7B-4A35-9B03-0933CEC7A33F}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="publisher/Models/ApplicationDbContext.cs">
+    <Files>
+      <File FileName="publisher/Program.cs" Line="11" Column="1" />
+      <File FileName="publisher/Controllers/AddressBookController.cs" Line="50" Column="21" />
+      <File FileName="publisher/Controllers/ContectInformationController.cs" Line="38" Column="43" />
+      <File FileName="publisher/Controllers/ReportController.cs" Line="27" Column="10" />
+      <File FileName="publisher/Models/AddressBook/AddressBookModel.cs" Line="26" Column="14" />
+      <File FileName="publisher/Models/ContactInformation/ContactInformationModel.cs" Line="20" Column="38" />
+      <File FileName="publisher/Startup.cs" Line="8" Column="1" />
+      <File FileName="publisher/Models/ApplicationDbContext.cs" Line="34" Column="1" />
+      <File FileName="publisher/Models/Report/ReportModel.cs" Line="9" Column="30" />
+      <File FileName="publisher/appsettings.json" Line="3" Column="175" />
+      <File FileName="publisher/WeatherForecast.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="publisher" expanded="True">
+            <Node name="publisher" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="Models" expanded="True">
+                <Node name="AddressBook" expanded="True" />
+                <Node name="ContactInformation" expanded="True" />
+                <Node name="Report" expanded="True" />
+              </Node>
+              <Node name="Properties" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/meelosoft/web_projects/publisher/publisher/Controllers/ContectInformationController.cs" relfile="publisher/Controllers/ContectInformationController.cs" line="32" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.ItemProperties.publisher PreferredExecutionTarget="/Applications/Google Chrome.app" />
 </Properties>
